@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://glowing-happiness-x5px46j9jgw6cv54v-5173.app.github.dev/sitemap.xml
