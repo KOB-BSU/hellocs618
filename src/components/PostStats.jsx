@@ -5,6 +5,7 @@ import {
   getDailyViews,
   getDailyDurations,
 } from '../api/events.js'
+
 import {
   VictoryChart,
   VictoryTooltip,
@@ -12,6 +13,7 @@ import {
   VictoryLine,
   VictoryVoronoiContainer,
 } from 'victory'
+
 export function PostStats({ postId }) {
   const totalViews = useQuery({
     queryKey: ['totalViews', postId],
@@ -35,21 +37,17 @@ export function PostStats({ postId }) {
   return (
     <div>
       <b>{totalViews.data?.views} total views</b>
-      <div style={{ width: 512 }}>
-        <h3>Daily Views</h3>
-        <VictoryChart domainPadding={16}>
-          <VictoryBar
-            labelComponent={<VictoryTooltip />}
-            data={dailyViews.data?.map((d) => ({
-              x: new Date(d._id),
-              y: d.views,
-              label: `${new Date(d._id).toLocaleDateString()}: ${
-                d.views
-              } views`,
-            }))}
-          />
-        </VictoryChart>
-      </div>
+      <VictoryChart domainPadding={16}>
+        <VictoryBar
+          labelComponent={<VictoryTooltip />}
+          data={dailyViews.data?.map((d) => ({
+            x: new Date(d._id),
+            y: d.views,
+            label: `${new Date(d._id).toLocaleDateString()}:${d.views} views`,
+          }))}
+        />
+      </VictoryChart>
+
       <div style={{ width: 512 }}>
         <h4>Daily Average Viewing Duration</h4>
         <VictoryChart

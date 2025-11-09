@@ -1,0 +1,4 @@
+{
+  "schema": "https://glowing-happiness-x5px46j9jgw6cv54v-3001.app.github.dev/graphql",
+  "documents": "src/api/graphql/*.{js,jsx}"
+}

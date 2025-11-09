@@ -4,17 +4,22 @@ import { useQuery, useMutation } from '@tanstack/react-query'
 import { Header } from '../components/Header.jsx'
 import { Post } from '../components/Post.jsx'
 import { getPostById } from '../api/posts.js'
-import { PostStats } from '../components/PostStats.jsx'
 import { useEffect, useState } from 'react'
 import { postTrackEvent } from '../api/events.js'
+import { PostStats } from '../components/PostStats.jsx'
+
 import { getUserInfo } from '../api/users.js'
+
 import { Helmet } from 'react-helmet-async'
+
 export function ViewPost({ postId }) {
   const [session, setSession] = useState()
+
   const trackEventMutation = useMutation({
     mutationFn: (action) => postTrackEvent({ postId, action, session }),
     onSuccess: (data) => setSession(data?.session),
   })
+
   useEffect(() => {
     let timeout = setTimeout(() => {
       trackEventMutation.mutate('startView')
@@ -25,17 +30,20 @@ export function ViewPost({ postId }) {
       else trackEventMutation.mutate('endView')
     }
   }, [])
+
   const postQuery = useQuery({
     queryKey: ['post', postId],
     queryFn: () => getPostById(postId),
   })
   const post = postQuery.data
+
   const userInfoQuery = useQuery({
     queryKey: ['users', post?.author],
     queryFn: () => getUserInfo(post?.author),
     enabled: Boolean(post?.author),
   })
   const userInfo = userInfoQuery.data ?? {}
+
   function truncate(str, max = 160) {
     if (!str) return str
     if (str.length > max) {
@@ -44,6 +52,7 @@ export function ViewPost({ postId }) {
       return str
     }
   }
+
   return (
     <div style={{ padding: 8 }}>
       {post && (
@@ -60,6 +69,7 @@ export function ViewPost({ postId }) {
           ))}
         </Helmet>
       )}
+
       <Header />
       <br />
       <hr />
@@ -68,11 +78,11 @@ export function ViewPost({ postId }) {
       <hr />
       {post ? (
         <div>
-          <Post {...post} fullPost />
+          <Post {...post} fullPost id={postId} author={userInfo} />
           <hr /> <PostStats postId={postId} />
         </div>
       ) : (
-        `Post with id ${postId} not found.`
+        `Post with id${postId} not found.`
       )}
     </div>
   )
