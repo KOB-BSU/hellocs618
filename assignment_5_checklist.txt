@@ -1,0 +1,9 @@
+[X]Run your backend and frontend through command line
+
+[X]Open two browser windows
+
+[X]Sign in as two different users
+
+[X]Add some chat message in user1 so I can see the message in both user1 and user2's screen
+
+[X]Add a reply message in user2 so I can see the message in both user1 and user2's screen
